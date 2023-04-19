@@ -1,0 +1,12 @@
+- name: Ansible Hello Devops
+  hosts: target1
+  become: yes
+  tasks:
+    - name: Edit hello world
+      ansible.builtin.lineinfile:
+        path: /home/ansible_controller/hello-world/src/App.js
+        search_string: 'World'
+        line: Hello DevOps!
+        owner: root
+        group: root
+        mode: '0644'

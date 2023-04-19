@@ -1,0 +1,6 @@
+Port 22
+AllowTcpForwarding no                                                         
+GatewayPorts no                                                               
+X11Forwarding no
+AuthorizedKeysFile      .ssh/authorized_keys
+Subsystem       sftp    internal-sftp 

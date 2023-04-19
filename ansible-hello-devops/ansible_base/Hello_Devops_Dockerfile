@@ -1,0 +1,20 @@
+FROM node:alpine
+RUN apk add \
+sudo \
+bash \
+openssh \
+python3
+WORKDIR /home/ansible_controller
+COPY ./hello-world ./hello-world
+COPY ./ssh_config /etc/ssh/ssh_config
+COPY ./entrypoint.sh .
+RUN adduser -S -h /home/ansible_controller -s /bin/bash -g root -G wheel -u 1001 ansible_controller \
+    && echo ansible_controller:12345 | chpasswd \
+    && echo "%wheel ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/wheel \
+    && mkdir -p /home/ansible_controller/.ssh \
+    && chmod 0700 /home/ansible_controller/.ssh
+RUN ln -sf python3 /usr/bin/python
+RUN cd hello-world \
+    && npm install
+EXPOSE 3000
+ENTRYPOINT ["./entrypoint.sh"]
